@@ -2,11 +2,11 @@ from setuptools import find_packages, setup
 
 setup(
     name='django-static-compress',
-    version='1.0.0',
-    url='http://github.com/django/channels',
-    author='Django Software Foundation',
-    author_email='foundation@djangoproject.com',
-    description="Brings event-driven capabilities to Django with a channel system. Django 1.8 and up only.",
+    version='1.0.2',
+    url='https://github.com/whs/django-static-compress',
+    author='Manatsawin Hanmongkolchai',
+    author_email='manatsawin+pypi@gmail.com',
+    description="Precompress Django static files with Brotli and Zopfli",
     license='MIT',
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
