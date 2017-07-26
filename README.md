@@ -1,5 +1,9 @@
 # Django-static-compress
 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Travis Status](https://travis-ci.org/whs/django-static-compress.svg)](https://travis-ci.org/whs/django-static-compress)
+[![PyPi](https://img.shields.io/pypi/v/django-static-compress.svg)](https://pypi.python.org/pypi/django-static-compress)
+
 Precompress your static files automatically with [Brotli](https://github.com/google/brotli) and [Zopfli](https://github.com/obp/zopfli)
 
 ## Installation
