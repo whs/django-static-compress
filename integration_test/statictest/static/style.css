@@ -1,0 +1,7 @@
+@import url(javascript.js);
+
+body {
+	background-color: red;
+	color: white;
+	text-decoration: blink;
+}
