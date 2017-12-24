@@ -2,8 +2,9 @@ from . import compressors
 
 __all__ = ['CompressMixin']
 
+
 class CompressMixin:
-	allowed_extensions = ['js', 'css']
+	allowed_extensions = ['js', 'css', 'svg']
 	compressors = [compressors.BrotliCompressor(), compressors.ZopfliCompressor()]
 
 	def post_process(self, paths, dry_run=False, **options):

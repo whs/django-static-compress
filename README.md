@@ -41,7 +41,7 @@ Also, as Brotli is not supported by all browsers you should make sure that your 
 
 You can also add support to your own backend by applying `static_compress.CompressMixin` to your class.
 
-By default it will only compress files ending with `.js` and `.css`. This is controlled by the `allowed_extensions` instance attribute.
+By default it will only compress files ending with `.js`, `.css` and `.svg`. This is controlled by the `allowed_extensions` instance attribute.
 
 ## File size reduction
 
