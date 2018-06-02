@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
 	name='django-static-compress',
-	version='1.1.0',
+	version='1.1.1',
 	url='https://github.com/whs/django-static-compress',
 	author='Manatsawin Hanmongkolchai',
 	author_email='manatsawin+pypi@gmail.com',
@@ -12,8 +12,8 @@ setup(
 	include_package_data=True,
 	install_requires=[
 		'Django',
-		'Brotli~=1.0.1',
-		'zopfli~=0.1.1',
+		'Brotli~=1.0.4',
+		'zopfli~=0.1.4',
 	],
 	classifiers=[
 		'Development Status :: 5 - Production/Stable',
