@@ -41,7 +41,19 @@ Also, as Brotli is not supported by all browsers you should make sure that your 
 
 You can also add support to your own backend by applying `static_compress.CompressMixin` to your class.
 
-By default it will only compress files ending with `.js`, `.css` and `.svg`. This is controlled by the `allowed_extensions` instance attribute.
+By default it will only compress files ending with `.js`, `.css` and `.svg`. This is controlled by the settings below.
+
+## Settings
+
+_django-static-compress_ settings and their default values:
+
+```py
+STATIC_COMPRESS_FILE_EXTS = ['js', 'css', 'svg']
+STATIC_COMPRESS_METHODS = ['gz', 'br']
+STATIC_COMPRESS_KEEP_ORIGINAL = True
+```
+
+After compressing the static files, _django-static-compress_ still leaves the original files in _STATIC_ROOT_ folder. If you want to delete (to save disk space), change `STATIC_COMPRESS_KEEP_ORIGINAL` to `False`.
 
 ## File size reduction
 
