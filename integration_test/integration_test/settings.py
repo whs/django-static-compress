@@ -12,3 +12,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = []
 
 STATIC_URL = '/static/'
+
+# Compress all, no matter file size
+STATIC_COMPRESS_MIN_SIZE_KB = 0
