@@ -20,6 +20,7 @@ class CompressMixin:
 	compress_methods = []
 	keep_original = True
 	compressors = []
+	minimum_kb = 0
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -29,6 +30,7 @@ class CompressMixin:
 		self.allowed_extensions = getattr(settings, 'STATIC_COMPRESS_FILE_EXTS', ['js', 'css', 'svg'])
 		self.compress_methods = getattr(settings, 'STATIC_COMPRESS_METHODS', list(METHOD_MAPPING.keys()))
 		self.keep_original = getattr(settings, 'STATIC_COMPRESS_KEEP_ORIGINAL', True)
+		self.minimum_kb = getattr(settings, 'STATIC_COMPRESS_MIN_SIZE_KB', 30)
 
 		valid = [i for i in self.compress_methods if i in METHOD_MAPPING]
 		if not valid:
@@ -74,6 +76,9 @@ class CompressMixin:
 				continue
 
 			source_storage, path = paths[name]
+			# Process if file is big enough
+			if os.path.getsize(self.path(path)) < self.minimum_kb * 1024:
+				continue
 			src_mtime = source_storage.get_modified_time(path)
 			dest_path = self._get_dest_path(path)
 			with self._open(dest_path) as file:

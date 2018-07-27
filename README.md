@@ -51,9 +51,12 @@ _django-static-compress_ settings and their default values:
 STATIC_COMPRESS_FILE_EXTS = ['js', 'css', 'svg']
 STATIC_COMPRESS_METHODS = ['gz', 'br']
 STATIC_COMPRESS_KEEP_ORIGINAL = True
+STATIC_COMPRESS_MIN_SIZE_KB = 30
 ```
 
 After compressing the static files, _django-static-compress_ still leaves the original files in _STATIC_ROOT_ folder. If you want to delete (to save disk space), change `STATIC_COMPRESS_KEEP_ORIGINAL` to `False`.
+
+If the file is too small, it isn't worth compressing. You can change the minimum size in KiB at which file should be compressed, by changing `STATIC_COMPRESS_MIN_SIZE_KB`.
 
 ## File size reduction
 
