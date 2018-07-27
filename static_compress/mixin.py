@@ -2,7 +2,6 @@ import os
 import errno
 from os.path import getatime, getctime, getmtime
 
-from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
 from . import compressors
@@ -17,13 +16,20 @@ METHOD_MAPPING = {
 
 
 class CompressMixin:
-	allowed_extensions = getattr(settings, 'STATIC_COMPRESS_FILE_EXTS', ['js', 'css', 'svg'])
-	compress_methods = getattr(settings, 'STATIC_COMPRESS_METHODS', list(METHOD_MAPPING.keys()))
-	keep_original = getattr(settings, 'STATIC_COMPRESS_KEEP_ORIGINAL', True)
+	allowed_extensions = []
+	compress_methods = []
+	keep_original = True
 	compressors = []
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
+		# We access Django settings lately here, to allow our app to be imported without
+		# defining DJANGO_SETTINGS_MODULE.
+		from django.conf import settings
+		self.allowed_extensions = getattr(settings, 'STATIC_COMPRESS_FILE_EXTS', ['js', 'css', 'svg'])
+		self.compress_methods = getattr(settings, 'STATIC_COMPRESS_METHODS', list(METHOD_MAPPING.keys()))
+		self.keep_original = getattr(settings, 'STATIC_COMPRESS_KEEP_ORIGINAL', True)
+
 		valid = [i for i in self.compress_methods if i in METHOD_MAPPING]
 		if not valid:
 			raise ImproperlyConfigured('No valid method is defined in STATIC_COMPRESS_METHODS setting.')
