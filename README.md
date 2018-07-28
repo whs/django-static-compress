@@ -27,7 +27,7 @@ When you run `python manage.py collectstatic` it will have an additional post-pr
 Make sure that your web server is configured to serve precompressed static files:
 
 - If using nginx:
-  - Setup [ngx_http_gzip_static_module](https://nginx.org/en/docs/http/ngx_http_gzip_static_module.html) to serve Zopfli (.gz) precompressed files.
+  - Setup [ngx_http_gzip_static_module](https://nginx.org/en/docs/http/ngx_http_gzip_static_module.html) to serve gzip (.gz) precompressed files.
   - Out of tree module [ngx_brotli](https://github.com/google/ngx_brotli) is required to serve Brotli (.br) precompressed files.
 - [Caddy](https://caddyserver.com) will serve .gz and .br without additional configuration.
 
@@ -57,6 +57,8 @@ STATIC_COMPRESS_MIN_SIZE_KB = 30
 After compressing the static files, _django-static-compress_ still leaves the original files in _STATIC_ROOT_ folder. If you want to delete (to save disk space), change `STATIC_COMPRESS_KEEP_ORIGINAL` to `False`.
 
 If the file is too small, it isn't worth compressing. You can change the minimum size in KiB at which file should be compressed, by changing `STATIC_COMPRESS_MIN_SIZE_KB`.
+
+If you want to create gzip file with stronger compression, replace `'gz'` with `'gz+zop'` in `STATIC_COMPRESS_METHODS`. Zopfli compressor will then be used. But be aware that it takes longer time and higher CPU usage to do compressing. That may not be what you expect on ARM embedded computer.
 
 ## File size reduction
 
