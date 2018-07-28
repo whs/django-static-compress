@@ -9,9 +9,12 @@ from . import compressors
 __all__ = ['CompressMixin']
 
 
+DEFAULT_METHODS = ['gz', 'br']
 METHOD_MAPPING = {
-	'gz': compressors.ZopfliCompressor,
+	'gz': compressors.ZlibCompressor,
 	'br': compressors.BrotliCompressor,
+	'gz+zop': compressors.ZopfliCompressor,
+	# gz+zop and gz cannot be used at the same time, because they produce the same file extension.
 }
 
 
@@ -28,13 +31,15 @@ class CompressMixin:
 		# defining DJANGO_SETTINGS_MODULE.
 		from django.conf import settings
 		self.allowed_extensions = getattr(settings, 'STATIC_COMPRESS_FILE_EXTS', ['js', 'css', 'svg'])
-		self.compress_methods = getattr(settings, 'STATIC_COMPRESS_METHODS', list(METHOD_MAPPING.keys()))
+		self.compress_methods = getattr(settings, 'STATIC_COMPRESS_METHODS', DEFAULT_METHODS)
 		self.keep_original = getattr(settings, 'STATIC_COMPRESS_KEEP_ORIGINAL', True)
 		self.minimum_kb = getattr(settings, 'STATIC_COMPRESS_MIN_SIZE_KB', 30)
 
 		valid = [i for i in self.compress_methods if i in METHOD_MAPPING]
 		if not valid:
 			raise ImproperlyConfigured('No valid method is defined in STATIC_COMPRESS_METHODS setting.')
+		if 'gz' in valid and 'gz+zop' in valid:
+			raise ImproperlyConfigured('STATIC_COMPRESS_METHODS: gz and gz+zop cannot be used at the same time.')
 		self.compressors = [METHOD_MAPPING[k]() for k in valid]
 
 	def get_alternate_compressed_path(self, name):

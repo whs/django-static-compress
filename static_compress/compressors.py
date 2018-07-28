@@ -1,14 +1,25 @@
-from django.core.files.base import ContentFile
+import zlib
+
 import brotli
 from zopfli import gzip as zopfli
+from django.core.files.base import ContentFile
 
-__all__ = ['BrotliCompressor', 'ZopfliCompressor']
+__all__ = ['BrotliCompressor', 'ZlibCompressor', 'ZopfliCompressor']
+
 
 class BrotliCompressor:
 	extension = 'br'
 
 	def compress(self, path, file):
 		return ContentFile(brotli.compress(file.read()))
+
+
+class ZlibCompressor:
+	extension = 'gz'
+
+	def compress(self, path, file):
+		return ContentFile(zlib.compress(file.read()))
+
 
 class ZopfliCompressor:
 	extension = 'gz'
