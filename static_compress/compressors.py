@@ -1,4 +1,4 @@
-import zlib
+import gzip
 
 import brotli
 from zopfli import gzip as zopfli
@@ -18,7 +18,7 @@ class ZlibCompressor:
 	extension = 'gz'
 
 	def compress(self, path, file):
-		return ContentFile(zlib.compress(file.read()))
+		return ContentFile(gzip.compress(file.read()))
 
 
 class ZopfliCompressor:
