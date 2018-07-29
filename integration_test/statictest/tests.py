@@ -147,11 +147,11 @@ class CollectStaticTest(SimpleTestCase):
 				self.assertFileExist(self.temp_dir_path / (file + '.gz'))
 				self.assertFileExist(self.temp_dir_path / (file + '.br'))
 
-	def test_collectstatic_with_zopfli(self):
+	def test_collectstatic_with_zlib(self):
 		with self.settings(
 			STATICFILES_STORAGE='static_compress.storage.CompressedStaticFilesStorage',
 			STATIC_COMPRESS_MIN_SIZE_KB=1,
-			STATIC_COMPRESS_METHODS=['gz+zop', 'br'],
+			STATIC_COMPRESS_METHODS=['gz+zlib', 'br'],
 			STATIC_ROOT=self.temp_dir.name
 		):
 			call_command('collectstatic', interactive=False, verbosity=0)

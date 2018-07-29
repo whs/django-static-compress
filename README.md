@@ -58,7 +58,7 @@ After compressing the static files, _django-static-compress_ still leaves the or
 
 If the file is too small, it isn't worth compressing. You can change the minimum size in KiB at which file should be compressed, by changing `STATIC_COMPRESS_MIN_SIZE_KB`.
 
-If you want to create gzip file with stronger compression, replace `'gz'` with `'gz+zop'` in `STATIC_COMPRESS_METHODS`. Zopfli compressor will then be used. But be aware that it takes longer time and higher CPU usage to do compressing. That may not be what you expect on ARM embedded computer.
+By default, _django-static-compress_ use Zopfli to compress to gzip. If you want to create gzip file with built-in zlib compressor, replace `'gz'` with `'gz+zlib'` in `STATIC_COMPRESS_METHODS`. Notes: Zopfli takes longer time and higher CPU usage to do compressing. That may not be what you expect on ARM embedded computer (it can take 97% CPU).
 
 ## File size reduction
 

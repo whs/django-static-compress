@@ -11,10 +11,10 @@ __all__ = ['CompressMixin']
 
 DEFAULT_METHODS = ['gz', 'br']
 METHOD_MAPPING = {
-	'gz': compressors.ZlibCompressor,
+	'gz': compressors.ZopfliCompressor,
 	'br': compressors.BrotliCompressor,
-	'gz+zop': compressors.ZopfliCompressor,
-	# gz+zop and gz cannot be used at the same time, because they produce the same file extension.
+	'gz+zlib': compressors.ZlibCompressor,
+	# gz+zlib and gz cannot be used at the same time, because they produce the same file extension.
 }
 
 
@@ -38,8 +38,8 @@ class CompressMixin:
 		valid = [i for i in self.compress_methods if i in METHOD_MAPPING]
 		if not valid:
 			raise ImproperlyConfigured('No valid method is defined in STATIC_COMPRESS_METHODS setting.')
-		if 'gz' in valid and 'gz+zop' in valid:
-			raise ImproperlyConfigured('STATIC_COMPRESS_METHODS: gz and gz+zop cannot be used at the same time.')
+		if 'gz' in valid and 'gz+zlib' in valid:
+			raise ImproperlyConfigured('STATIC_COMPRESS_METHODS: gz and gz+zlib cannot be used at the same time.')
 		self.compressors = [METHOD_MAPPING[k]() for k in valid]
 
 	def get_alternate_compressed_path(self, name):
