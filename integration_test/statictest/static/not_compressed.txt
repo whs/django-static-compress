@@ -1,1 +1,9 @@
-This file is not compressed
+Từ Wikipedia có từ đâu?
+
+Wiki, hay "wiki wiki" theo ngôn ngữ Hawaii có nghĩa là nhanh. Wiki là yếu tố cơ bản của các trang web cho phép người xem sửa đổi, lưu trữ, thêm và xóa nội dung, được Ward Cunningham phát triển vào những năm 90 của thế kỉ 20. Wiki cho phép tạo ra vô số các liên kết và tính đơn giản này giúp wiki trở thành công cụ rất hữu ích cho vấn đề đồng tác giả. Wikipedia là chữ viết tắt của wiki và "encyclopedia", trong tiếng Anh có nghĩa là bách khoa toàn thư. 
+
+Wikipedia là một bách khoa toàn thư tự do, là kết quả của sự cộng tác của chính những người đọc từ khắp nơi trên thế giới. Trang mạng này có tính chất wiki, có nghĩa là tất cả mọi người đều có thể sửa đổi ở bất cứ trang nào bằng cách bấm vào các liên kết “sửa đổi”, hoặc “Sửa đổi trang này”, có ở hầu hết các trang, ngoại trừ các cá nhân bị tước quyền sửa đổi và những trang bị khóa.
+
+Để biết thêm thông tin, giới báo chí có thể liên lạc với Quỹ Wikimedia.
+
+Wikipedia chính thức bắt đầu vào ngày 15 tháng 1 năm 2001 nhờ hai người sáng lập Jimmy Wales và Larry Sanger cùng với vài người cộng tác nhiệt thành và chỉ có phiên bản tiếng Anh. Chỉ hơn ba năm sau, vào tháng 3 năm 2004, đã có 6.000 người đóng góp tích cực cho 600.000 bài viết với 50 thứ tiếng. Cho đến hôm nay đã có hơn 4.300.000 bài viết ở riêng phiên bản tiếng Anh, hơn 30.000.000 bài viết ở tất cả phiên bản ngôn ngữ. Mỗi ngày hàng trăm nghìn người ghé thăm từ khắp nơi để thực hiện hàng chục nghìn sửa đổi cũng như bắt đầu nhiều bài viết mới.

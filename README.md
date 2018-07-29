@@ -27,7 +27,7 @@ When you run `python manage.py collectstatic` it will have an additional post-pr
 Make sure that your web server is configured to serve precompressed static files:
 
 - If using nginx:
-  - Setup [ngx_http_gzip_static_module](https://nginx.org/en/docs/http/ngx_http_gzip_static_module.html) to serve Zopfli (.gz) precompressed files.
+  - Setup [ngx_http_gzip_static_module](https://nginx.org/en/docs/http/ngx_http_gzip_static_module.html) to serve gzip (.gz) precompressed files.
   - Out of tree module [ngx_brotli](https://github.com/google/ngx_brotli) is required to serve Brotli (.br) precompressed files.
 - [Caddy](https://caddyserver.com) will serve .gz and .br without additional configuration.
 
@@ -41,7 +41,24 @@ Also, as Brotli is not supported by all browsers you should make sure that your 
 
 You can also add support to your own backend by applying `static_compress.CompressMixin` to your class.
 
-By default it will only compress files ending with `.js`, `.css` and `.svg`. This is controlled by the `allowed_extensions` instance attribute.
+By default it will only compress files ending with `.js`, `.css` and `.svg`. This is controlled by the settings below.
+
+## Settings
+
+_django-static-compress_ settings and their default values:
+
+```py
+STATIC_COMPRESS_FILE_EXTS = ['js', 'css', 'svg']
+STATIC_COMPRESS_METHODS = ['gz', 'br']
+STATIC_COMPRESS_KEEP_ORIGINAL = True
+STATIC_COMPRESS_MIN_SIZE_KB = 30
+```
+
+After compressing the static files, _django-static-compress_ still leaves the original files in _STATIC_ROOT_ folder. If you want to delete (to save disk space), change `STATIC_COMPRESS_KEEP_ORIGINAL` to `False`.
+
+If the file is too small, it isn't worth compressing. You can change the minimum size in KiB at which file should be compressed, by changing `STATIC_COMPRESS_MIN_SIZE_KB`.
+
+By default, _django-static-compress_ use Zopfli to compress to gzip. If you want to create gzip file with built-in zlib compressor, replace `'gz'` with `'gz+zlib'` in `STATIC_COMPRESS_METHODS`. Notes: Zopfli takes longer time and higher CPU usage to do compressing. That may not be what you expect on ARM embedded computer (it can take 97% CPU).
 
 ## File size reduction
 
