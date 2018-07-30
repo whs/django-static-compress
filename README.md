@@ -83,10 +83,11 @@ To contribute to this project:
 2.  Run `python setup.py develop`
 3.  Run `pip install -r requirements-dev.txt && pre-commit install`
 4.  Start hacking
-5.  Run test by `python setup.py test`
-6.  Commit. Pre-commit will warn if you have any changes.
-7.  Submit pull request on GitHub
-8.  Make sure Travis tests pass.
+5.  Run test: `python setup.py test`
+6.  Run integration test: `cd integration_test; python manage.py test`
+7.  Commit. Pre-commit will warn if you have any changes.
+8.  Submit pull request on GitHub
+9.  Make sure Travis tests pass.
 
 ## License
 
