@@ -75,6 +75,19 @@ Here's some statistics from [TipMe](https://tipme.in.th)'s jQuery and React bund
 
 (.gz is Zopfli compressed, and .br is Brotli compressed)
 
+## Contributing
+
+To contribute to this project:
+
+1.  Fork and clone this repository
+2.  Run `python setup.py develop`
+3.  Run `pip install -r requirements-dev.txt && pre-commit install`
+4.  Start hacking
+5.  Run test by `python setup.py test`
+6.  Commit. Pre-commit will warn if you have any changes.
+7.  Submit pull request on GitHub
+8.  Make sure Travis tests pass.
+
 ## License
 
 Licensed under the [MIT License](LICENSE)
