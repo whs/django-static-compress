@@ -189,7 +189,7 @@ class CollectStaticTest(SimpleTestCase):
                 with static_file.open("wb") as fp:
                     fp.write(expected_content)
 
-                call_command("collectstatic", interactive=False, verbosity=3)
+                call_command("collectstatic", interactive=False, verbosity=0)
 
                 self.assertEqual(output_file_path.read_bytes(), expected_content)
 
