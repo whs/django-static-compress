@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="django-static-compress",
-    version="1.2.0",
+    version="1.2.1",
     url="https://github.com/whs/django-static-compress",
     author="Manatsawin Hanmongkolchai",
     author_email="manatsawin+pypi@gmail.com",
