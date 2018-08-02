@@ -1,5 +1,7 @@
+import os
 import tempfile
 from pathlib import Path
+import gzip
 
 from django.test import SimpleTestCase
 from django.core.management import call_command
@@ -157,3 +159,39 @@ class CollectStaticTest(SimpleTestCase):
             call_command("collectstatic", interactive=False, verbosity=0)
 
             self.assertStaticFiles()
+
+    def test_collectstatic_twice_replace(self):
+        with tempfile.TemporaryDirectory() as static_dir:
+            with self.settings(
+                STATICFILES_STORAGE="static_compress.storage.CompressedStaticFilesStorage",
+                STATIC_COMPRESS_MIN_SIZE_KB=1,
+                STATIC_COMPRESS_METHODS=["gz+zlib"],
+                STATIC_ROOT=self.temp_dir.name,
+                STATICFILES_DIRS=[static_dir],
+            ):
+                output_file_path = self.temp_dir_path / "test.js"
+                compressed_file_path = self.temp_dir_path / "test.js.gz"
+
+                static_file = Path(static_dir) / "test.js"
+                with static_file.open("wb") as fp:
+                    fp.write(b"a" * 5000)
+
+                call_command("collectstatic", interactive=False, verbosity=0)
+
+                self.assertFileExist(output_file_path)
+                self.assertFileExist(compressed_file_path)
+
+                # Fake that the file has been written long ago
+                os.utime(output_file_path, times=(1, 1))
+                os.utime(compressed_file_path, times=(1, 1))
+
+                expected_content = b"b" * 5000
+                with static_file.open("wb") as fp:
+                    fp.write(expected_content)
+
+                call_command("collectstatic", interactive=False, verbosity=3)
+
+                self.assertEqual(output_file_path.read_bytes(), expected_content)
+
+                with compressed_file_path.open("rb") as fp:
+                    self.assertEqual(gzip.open(fp).read(), expected_content)
