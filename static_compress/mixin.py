@@ -100,6 +100,11 @@ class CompressMixin:
                         file_is_unmodified = False
                     if file_is_unmodified:
                         continue
+
+                    # Delete old gzip file, or Nginx will pick the old file to serve.
+                    # Note: Django won't overwrite the file, so we have to delete it ourselves.
+                    if self.exists(dest_compressor_path):
+                        self.delete(dest_compressor_path)
                     out = compressor.compress(path, file)
 
                     if out:
