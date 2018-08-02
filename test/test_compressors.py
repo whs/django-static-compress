@@ -2,7 +2,7 @@ import unittest
 import gzip
 from io import BytesIO
 
-from static_compress.compressors import BrotliCompressor, ZopfliCompressor
+from static_compress.compressors import BrotliCompressor, ZopfliCompressor, ZlibCompressor
 import brotli
 
 content = b"a" * 100
@@ -31,4 +31,17 @@ class BrotliCompressorTestCase(unittest.TestCase):
         self.assertLessEqual(out.size, len(content))
 
         result = brotli.decompress(out.read())
+        self.assertEqual(result, content)
+
+
+class ZlibCompressorTestCase(unittest.TestCase):
+    def test_compress(self):
+        file = BytesIO(content)
+
+        compressor = ZlibCompressor()
+        out = compressor.compress("", file)
+        self.assertGreater(out.size, 0)
+        self.assertLessEqual(out.size, len(content))
+
+        result = gzip.decompress(out.read())
         self.assertEqual(result, content)
