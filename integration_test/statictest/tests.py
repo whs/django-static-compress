@@ -9,7 +9,7 @@ from django.core.management import call_command
 
 class CollectStaticTest(SimpleTestCase):
     def setUp(self):
-        self.temp_dir = tempfile.TemporaryDirectory()
+        self.temp_dir = tempfile.TemporaryDirectory(prefix='dsc_')
         self.temp_dir_path = Path(self.temp_dir.name)
 
     def tearDown(self):
