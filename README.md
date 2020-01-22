@@ -3,6 +3,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Travis Status](https://travis-ci.org/whs/django-static-compress.svg)](https://travis-ci.org/whs/django-static-compress)
 [![PyPi](https://img.shields.io/pypi/v/django-static-compress.svg)](https://pypi.python.org/pypi/django-static-compress)
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
 Precompress your static files automatically with [Brotli](https://github.com/google/brotli) and [Zopfli](https://github.com/obp/zopfli)
 
@@ -75,19 +76,16 @@ Here's some statistics from [TipMe](https://tipme.in.th)'s jQuery and React bund
 
 (.gz is Zopfli compressed, and .br is Brotli compressed)
 
-## Contributing
+## Developing
 
-To contribute to this project:
+This project is [unmaintained](http://unmaintained.tech/). You may use it, but issues and pull requests might be ignored.
 
-1.  Fork and clone this repository
-2.  Run `python setup.py develop`
-3.  Run `pip install -r requirements-dev.txt && pre-commit install`
-4.  Start hacking
-5.  Run test: `python setup.py test`
-6.  Run integration test: `cd integration_test; python manage.py test`
-7.  Commit. Pre-commit will warn if you have any changes.
-8.  Submit pull request on GitHub
-9.  Make sure Travis tests pass.
+1.  Run `python setup.py develop`
+2.  Run `pip install -r requirements-dev.txt && pre-commit install`
+3.  Start hacking
+4.  Run test: `python setup.py test`
+5.  Run integration test: `cd integration_test; python manage.py test`
+6.  Commit. Pre-commit will warn if you have any changes.
 
 ## License
 
