@@ -38,7 +38,6 @@ Also, as Brotli is not supported by all browsers you should make sure that your 
 
 - `static_compress.CompressedStaticFilesStorage`: Generate `.br` and `.gz` from your static files
 - `static_compress.CompressedManifestStaticFilesStorage`: Like [`ManifestStaticFilesStorage`](https://docs.djangoproject.com/en/1.11/ref/contrib/staticfiles/#manifeststaticfilesstorage), but also generate compressed files for the hashed files
-- `static_compress.CompressedCachedStaticFilesStorage`: Like [`CachedStaticFilesStorage`](https://docs.djangoproject.com/en/1.11/ref/contrib/staticfiles/#cachedstaticfilesstorage), but also generate compressed files for the hashed files
 
 You can also add support to your own backend by applying `static_compress.CompressMixin` to your class.
 

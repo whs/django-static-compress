@@ -74,23 +74,6 @@ class CollectStaticTest(SimpleTestCase):
 
             self.assertManifestStaticFiles()
 
-    def test_collectstatic_cache(self):
-        with self.settings(
-            STATICFILES_STORAGE="static_compress.storage.CompressedCachedStaticFilesStorage",
-            STATIC_COMPRESS_MIN_SIZE_KB=1,
-            STATIC_ROOT=self.temp_dir.name,
-        ):
-            call_command("collectstatic", interactive=False, verbosity=0)
-
-            for file in ["milligram.css", "system.js", "speaker.svg", "not_compressed.txt"]:
-                self.assertFileExist(self.temp_dir_path / file)
-                self.assertFileNotExist(self.temp_dir_path / (file + ".gz"))
-                self.assertFileNotExist(self.temp_dir_path / (file + ".br"))
-
-            self.assertFileNotExist(self.temp_dir_path / "staticfiles.json")
-
-            self.assertManifestStaticFiles()
-
     def test_collectstatic_only_gz(self):
         with self.settings(
             STATICFILES_STORAGE="static_compress.storage.CompressedStaticFilesStorage",

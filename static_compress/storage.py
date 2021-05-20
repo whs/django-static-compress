@@ -1,8 +1,8 @@
-from django.contrib.staticfiles.storage import StaticFilesStorage, ManifestStaticFilesStorage, CachedStaticFilesStorage
+from django.contrib.staticfiles.storage import StaticFilesStorage, ManifestStaticFilesStorage
 
 from . import mixin
 
-__all__ = ["CompressedStaticFilesStorage", "CompressedManifestStaticFilesStorage", "CompressedCachedStaticFilesStorage"]
+__all__ = ["CompressedStaticFilesStorage", "CompressedManifestStaticFilesStorage"]
 
 
 class CompressedStaticFilesStorage(mixin.CompressMixin, StaticFilesStorage):
@@ -10,8 +10,4 @@ class CompressedStaticFilesStorage(mixin.CompressMixin, StaticFilesStorage):
 
 
 class CompressedManifestStaticFilesStorage(mixin.CompressMixin, ManifestStaticFilesStorage):
-    pass
-
-
-class CompressedCachedStaticFilesStorage(mixin.CompressMixin, CachedStaticFilesStorage):
     pass
