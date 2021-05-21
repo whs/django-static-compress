@@ -1,4 +1,5 @@
 import os
+from collections import OrderedDict
 from os.path import getatime, getctime, getmtime
 import errno
 
@@ -34,7 +35,7 @@ class CompressMixin:
         self.allowed_extensions = getattr(settings, "STATIC_COMPRESS_FILE_EXTS", ["js", "css", "svg"])
         self.compress_methods = getattr(settings, "STATIC_COMPRESS_METHODS", DEFAULT_METHODS)
         self.keep_original = getattr(settings, "STATIC_COMPRESS_KEEP_ORIGINAL", True)
-        self.minimum_kb = getattr(settings, "STATIC_COMPRESS_MIN_SIZE_KB", 30)
+        self.minimum_kb = getattr(settings, "STATIC_COMPRESS_MIN_SIZE_KB", 0)
 
         valid = [i for i in self.compress_methods if i in METHOD_MAPPING]
         if not valid:
@@ -71,47 +72,64 @@ class CompressMixin:
         return self._datetime_from_timestamp(getmtime(alt))
 
     def post_process(self, paths, dry_run=False, **options):
-        if hasattr(super(), "post_process"):
-            yield from super().post_process(paths, dry_run, **options)
-
         if dry_run:
             return
 
+        files = OrderedDict()
+
+        super_class = super()
+        if hasattr(super_class, "post_process"):
+            generator = super_class.post_process(paths, dry_run, **options)
+        else:
+            generator = iter((f, f, False) for f in paths)
+
+        for file, hashed_file, processed in generator:
+            files[file] = hashed_file
+            yield file, hashed_file, processed
+
         for name in paths.keys():
-            if not self._is_file_allowed(name):
+            if not (name in files and self._is_file_allowed(name)):
                 continue
 
-            source_storage, path = paths[name]
+            source_storage, _ = paths[name]
+
+            path = files[name]
             # Process if file is big enough
-            if os.path.getsize(self.path(path)) < self.minimum_kb * 1024:
+            real_path = self.path(path)
+            if self.minimum_kb and os.path.getsize(real_path) < self.minimum_kb * 1024:
                 continue
-            src_mtime = source_storage.get_modified_time(path)
-            dest_path = self._get_dest_path(path)
-            with self._open(dest_path) as file:
+
+            with self._open(real_path) as file:
                 for compressor in self.compressors:
-                    dest_compressor_path = "{}.{}".format(dest_path, compressor.extension)
+                    dest_compressed_name = "{}.{}".format(path, compressor.extension)
+                    dest_compressed_path = self.path(dest_compressed_name)
+
                     # Check if the original file has been changed.
                     # If not, no need to compress again.
-                    full_compressed_path = self.path(dest_compressor_path)
                     try:
-                        dest_mtime = self._datetime_from_timestamp(getmtime(full_compressed_path))
-                        file_is_unmodified = dest_mtime.replace(microsecond=0) >= src_mtime.replace(microsecond=0)
+                        if hasattr(self, 'hashed_name'):  # compute on hash value. if file exists so is it up to date
+                            file_is_unmodified = self.exists(dest_compressed_name)
+                        else:
+                            src_mtime = source_storage.get_modified_time(path)
+                            dest_mtime = self._datetime_from_timestamp(getmtime(dest_compressed_path))
+                            file_is_unmodified = dest_mtime.replace(microsecond=0) >= src_mtime.replace(microsecond=0)
                     except FileNotFoundError:
                         file_is_unmodified = False
                     if file_is_unmodified:
+                        yield path, dest_compressed_name, False
                         continue
 
                     # Delete old gzip file, or Nginx will pick the old file to serve.
                     # Note: Django won't overwrite the file, so we have to delete it ourselves.
-                    if self.exists(dest_compressor_path):
-                        self.delete(dest_compressor_path)
+                    if self.exists(dest_compressed_path):
+                        self.delete(dest_compressed_path)
                     out = compressor.compress(path, file)
 
                     if out:
-                        self._save(dest_compressor_path, out)
+                        self._save(dest_compressed_path, out)
                         if not self.keep_original:
                             self.delete(name)
-                        yield dest_path, dest_compressor_path, True
+                        yield path, dest_compressed_name, True
 
                     file.seek(0)
 
