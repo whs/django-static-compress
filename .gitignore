@@ -3,3 +3,5 @@ dist/
 django_static_compress.egg-info/
 __pycache__
 .vscode
+.venv*
+.eggs
