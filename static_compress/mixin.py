@@ -82,11 +82,17 @@ class CompressMixin:
                 continue
 
             source_storage, path = paths[name]
+            dest_path = self._get_dest_path(path)
             # Process if file is big enough
             if os.path.getsize(self.path(path)) < self.minimum_kb * 1024:
+                # Delete old gzip file, or Nginx will pick the old file to serve.
+                # Note: We have to delete the file in case it was created in a previous iteration.
+                for compressor in self.compressors:
+                    dest_compressor_path = "{}.{}".format(dest_path, compressor.extension)
+                    if self.exists(dest_compressor_path):
+                        self.delete(dest_compressor_path)
                 continue
             src_mtime = source_storage.get_modified_time(path)
-            dest_path = self._get_dest_path(path)
             with self._open(dest_path) as file:
                 for compressor in self.compressors:
                     dest_compressor_path = "{}.{}".format(dest_path, compressor.extension)
