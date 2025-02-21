@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.1.0] - 2025-02-21
+## Fixed
+- Remove compressed files if one exists, but the original files is under `STATIC_COMPRESS_MIN_SIZE_KB`. (#211, thanks @Stegopoelkus)
+
 ## [2.0.0] - 2021-05-20
 ### Removed
 - Remove `CompressedCachedStaticFilesStorage` as Django has removed it
