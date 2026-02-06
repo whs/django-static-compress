@@ -122,6 +122,8 @@ class CompressMixin:
                     file.seek(0)
 
     def _get_dest_path(self, path):
+        if hasattr(self, "hashed_files"):
+            return self.hashed_files.get(path, path)
         if hasattr(self, "hashed_name"):
             return self.hashed_name(path)
 
